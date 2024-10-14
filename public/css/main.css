@@ -1,0 +1,54 @@
+/* Password match check styles */
+.password-container {
+  position: relative;
+  margin-top: 10px;
+}
+
+.match-status {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.match-status i {
+  font-size: 1.2em;
+}
+
+.match-status i.mismatch {
+  color: red;
+}
+
+.match-status i.match {
+  color: green;
+}
+
+/* Progress bar styles */
+.progress-container {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  width: 0;
+  height: 25px;
+  background-color: #764ce4;
+  text-align: center;
+  color: white;
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+/* Back to Home button styles */
+.back-to-home {
+  display: none;
+  margin-top: 20px;
+  background-color: #764ce4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

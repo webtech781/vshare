@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Upload File</title>
+  </head>
+  <body>
+    <form id="uploadForm" class="container" enctype="multipart/form-data">
+      <h3>Upload Your File:</h3>
+      <div id="fileUploadSection">
+        <div class="drop-zone">
+          <span class="drop-zone__prompt">
+            <div class="icons">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/4366/4366454.png"
+                class="img"
+              />
+            </div>
+            Drop file here or click to upload
+          </span>
+          <input type="file" name="file" class="drop-zone__input" required />
+        </div>
+        <div>
+          <br />
+          <!-- Password field -->
+          <div class="password-container">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              id="password"
+              class="password"
+              required
+            />
+          </div>
+
+          <!-- Confirm Password field -->
+          <div class="password-container">
+            <input
+              type="password"
+              name="confirm-password"
+              placeholder="Confirm Password"
+              id="confirmPassword"
+              class="confirm-password"
+              required
+            />
+            <span id="passwordMatchStatus" class="match-status"></span>
+          </div>
+
+          <!-- Submit button with correct id -->
+          <button type="submit" class="submit" id="submitButton">Submit</button>
+        </div>
+      </div>
+
+      <!-- Progress bar container -->
+      <div
+        class="progress-container"
+        id="progressContainer"
+        style="display: none"
+      >
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+      
+      <!-- Download link, Copy button, QR code and Back to Home button -->
+      <div id="downloadLink" style="display: none">
+        <a href="#" id="fileLink" target="_blank">Download File</a>
+        <button id="copyButton" style="display: none">Copy Link</button>
+        <div id="qrcode" style="margin-top: 10px;"></div>
+        <button id="backToHome" class="back-to-home">Back to Home</button>
+      </div>
+    </form>
+
+    <!-- Include QRCode.js for QR code generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

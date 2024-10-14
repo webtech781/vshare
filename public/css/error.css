@@ -1,0 +1,36 @@
+/* Error Page Styles */
+.error-container {
+    text-align: center;
+    margin-top: 100px;
+    padding: 20px;
+    border: 2px solid #f44336;
+    border-radius: 10px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff4f4;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #f44336;
+}
+
+p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #f44336;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+a:hover {
+    background-color: #d32f2f;
+}
