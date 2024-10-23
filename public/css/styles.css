@@ -1,71 +1,117 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap");
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins" sans-serif;
+:root{
+  --background-color:#E0AAFF;
+  --background1-color:#f8f9fa;
+  --text-color:#10002B;
+  --button-color:#9D4EDD;
+   --border-color:#7B2CBF;
+  /*#3C096C */
 }
 
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  flex-direction: column;
-  background: #eae1fe;
-  position: relative;
-}
-.tooltip {
-  position: relative;
-  display: inline-block;
-  left: 290px;
-  bottom: 25px;
-}
 
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 140px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -75px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
 
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
+/* Container */
 .container {
-  max-width: 460px;
-
-  width: 100%;
-  padding: 30px;
-  background: #fcfcfc;
-  border-radius: 20px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--background1-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px;
 }
-.drag-area {
+
+/* Title */
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+
+/* Buttons */
+.btn-submit {
+  background-color:var(--button-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+  background-color: var(--button-color);
+  color: var(--text-color);
+}
+
+/* Progress Bar */
+.progress-bar {
+  background-color: #e9ecef;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-bar-custom {
+  background-color: #a29bfe !important; /* Progress bar color */
+  color: #10002B !important; /* Text color for percentage */
+  font-weight: bold; /* Optional: Make text bold for better readability */
+  transition: width 0.3s ease;
+}
+
+
+
+/* Download Link */
+.download-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--button-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+}
+.download-btn:hover {
+  background-color: var(--button-color);
+  color: var(--text-color);
+}
+
+.copy-btn {
+  background-color: #ffc107;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.error-container {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+}
+
+.error-title {
+  color: #721c24;
+  font-size: 2rem;
+}
+
+.upimg{
+  height: 50px;
+  width: 50px;
+}
+
+
+/* Drop Zone */
+
+
+.drag-area{
   height: 300px;
   border: 2px dashed #c8cacb;
   display: flex;
@@ -73,64 +119,63 @@ body {
   justify-content: center;
   flex-direction: column;
   margin: 10px auto;
+
 }
 
 .drop-zone {
-  max-width: 400px;
-  height: 200px;
-  padding: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-family: "Quicksand", sans-serif;
-  font-weight: 500;
-  font-size: 20px;
-  cursor: pointer;
-  color: #cccccc;
-  border: 4px dashed #c8cacb;
-  border-radius: 10px;
+max-width: 400px;
+height: 200px;
+padding: 25px;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+font-family: "Quicksand", sans-serif;
+font-weight: 500;
+font-size: 20px;
+cursor: pointer;
+color: #cccccc;
+border: 4px dashed  var(--border-color);
+/* border: 4px dashed  #007bff; */
+border-radius: 10px;
+transition: background-color 0.3s;
 }
 
 .drop-zone--over {
-  border-style: solid;
+border-style: solid;
 }
 
 .drop-zone__input {
-  display: none;
+display: none;
 }
 
 .drop-zone__thumb {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  overflow: hidden;
-  background-color: #cccccc;
-  background-size: cover;
-  position: relative;
+width: 100%;
+height: 100%;
+border-radius: 10px;
+overflow: hidden;
+background-color: #cccccc;
+background-size: cover;
+position: relative;
 }
 
 .drop-zone__thumb::after {
-  content: attr(data-label);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 5px 0;
-  color: #ffffff;
-  background: rgba(0, 0, 0, 0.75);
-  font-size: 14px;
-  text-align: center;
-}
+content: attr(data-label);
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+padding: 5px 0;
+color: #ffffff;
+background: rgba(0, 0, 0, 0.75);
+font-size: 14px;
+text-align: center;
+} 
 
-h3 {
-  margin-bottom: 20px;
-  font-weight: 500;
-}
 
 .drag-area .icon {
   font-size: 50px;
-  color: #1683ff;
+  /* color: #1683ff; */
 }
 
 .drag-area .header {
@@ -143,6 +188,7 @@ h3 {
   font-size: 12px;
   color: gray;
   margin: 10px 0 15px 0;
+
 }
 
 .drag-area .button {
@@ -150,161 +196,33 @@ h3 {
   font-weight: 500;
   color: #1683ff;
   cursor: pointer;
-}
-.submit {
-  background: #764ce4;
-  color: #fff;
-  display: inline-block;
-  font-size: 40px;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-  width: 46%;
-  height: 45px;
-  margin: 40px auto;
-  font-size: 13px;
-  border-radius: 50px;
-  transition: 0.5s all;
+  
 }
 
-.n_button {
-  font-size: 20px;
-  font-weight: 500;
-  color: #7243e6;
-  cursor: auto;
-  transition: 0.5s all;
-}
-.n_button input[type="file"] {
-  width: 0;
-  transition: 0.5s all;
-  height: 0;
-  position: absolute;
-  z-index: -1;
-  overflow: hidden;
-  opacity: 0;
-  cursor: pointer;
-}
-.cpbox {
-  position: relative;
 
-  padding: 10px;
 
-  background: #c3aff7;
-
-  border: 1px solid #ddd;
-
-  border-radius: 10px;
-
+html, body {
+  height: 100%;  /* Full height for body */
+  margin: 0;
   display: flex;
-
-  font-size: 18px;
-
-  color: #555;
-
-  border: none;
-
-  outline: none;
-
-  padding-right: 50px;
-
-  width: 100%;
-
-  top: 10px;
+  flex-direction: column;
+  background-color: var(--background-color);
 }
-.label {
-  padding: 5px;
 
-  font-size: 18px;
 
-  color: #111;
-}
-#password, #confirmPassword {
-  background: #c3aff7;
-
-  padding-top: 14px;
-  position: relative;
-
-  padding: 10px;
-
-  border: 1px solid #ddd;
-
-  border-radius: 10px;
-
+/* QR Code Container Styling */
+.qrcode-container {
   display: flex;
-
-  font-size: 18px;
-
-  color: #555;
-
-  border: none;
-
-  outline: none;
-
-  padding-right: 50px;
-
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; /* Adjust height as needed */
 }
 
-
-.img {
-  width: 50px;
-  height: 50px;
+#qrcode {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 10px;
 }
-.bb {
-  background: #764ce4;
-  color: #fff;
-  display: inline-block;
-  border: 0;
-  /* font-size: 40px; */
-  outline: none;
-  cursor: pointer;
-  width: 46%;
-  height: 45px;
-  margin: 30px auto;
-  font-size: 13px;
-  border-radius: 50px;
-  bottom: 20px;
-  top: 10px;
-}
-
-.dbnbtnl {
-  color: #fff;
-  font-size: 16px;
-}
-
-
-.stnbtn {
-  background: #764ce4;
-  color: #fff;
-  display: inline-block;
-  font-size: 40px;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-  width: 46%;
-  height: 45px;
-  margin: 40px auto;
-  font-size: 13px;
-  border-radius: 50px;
-  transition: 0.5s all;
-}
-
-
-
-/* Mobile styles (320-480px) */
-@media (max-width: 480px) {
-  /* styles for mobile screens */
-}
-
-/* Tablet styles (481-768px) */
-@media (min-width: 481px) and (max-width: 768px) {
-  /* styles for tablet screens */
-}
-
-/* Desktop styles (769px and up) */
-@media (min-width: 769px) {
-  /* styles for desktop screens */
-  #password{
-    max-width: 400px;
-  }
-}
+/* Footer Styling */

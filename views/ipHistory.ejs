@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User IP History</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>User IP History</h1>
+        <a href="/admin/panel" class="btn">Back to Admin Panel</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>IP Address</th>
+                    <th>Device</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% ipHistory.forEach(log => { %>
+                    <tr>
+                        <td><%= log.ip %></td>
+                        <td><%= log.deviceName %></td>
+                        <td><%= new Date(log.timestamp).toLocaleString() %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

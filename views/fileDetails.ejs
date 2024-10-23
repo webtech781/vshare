@@ -2,19 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>File Details</title>
+  <!-- Responsive meta tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <div class="container">
-    <h3>File Details</h3>
-    <p><strong>File Name:</strong> <%= fileName %></p>
-    <p><strong>File Size:</strong> <%= fileSize %> MB</p>
-    <p><strong>File Type:</strong> <%= fileType %></p>
-    <form action="/download/<%= fileId %>" method="get">
-      <button type="submit"class="stnbtn">Download File</button>
-    </form>
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">File Details</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <ul class="list-group">
+          <li class="list-group-item"><strong>File Name:</strong> <%= fileName %></li>
+          <li class="list-group-item"><strong>File Size:</strong> <%= fileSize %> </li>
+          <li class="list-group-item"><strong>File Type:</strong> <%= fileType %></li>
+        </ul>
+        <form action="/download/<%= fileId %>" method="get" class="mt-4">
+          <button type="submit" class="btn download-btn w-100">Download File</button>
+        </form>
+      </div>
+    </div>
   </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

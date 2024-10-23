@@ -3,117 +3,96 @@ const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("confirmPassword");
 const passwordMatchStatus = document.getElementById("passwordMatchStatus");
 const submitButton = document.getElementById("submitButton");
-let confirmPasswordTypingStarted = false;
 
 function checkPasswordMatch() {
   const password = passwordInput.value;
   const confirmPassword = confirmPasswordInput.value;
 
-  // Check if passwords match and indicate visually
-  if (confirmPasswordTypingStarted && password && confirmPassword && password === confirmPassword) {
-    passwordMatchStatus.innerHTML = '<i class="fa fa-check match"></i>';
+  if (password && confirmPassword) {
+    if (password === confirmPassword) {
+      passwordMatchStatus.textContent = "Passwords match.";
+      passwordMatchStatus.classList.remove("text-danger");
+      passwordMatchStatus.classList.add("text-success");
+      submitButton.disabled = false;
+    } else {
+      passwordMatchStatus.textContent = "Passwords do not match.";
+      passwordMatchStatus.classList.remove("text-success");
+      passwordMatchStatus.classList.add("text-danger");
+      submitButton.disabled = true;
+    }
+  } else {
+    passwordMatchStatus.textContent = "";
     submitButton.disabled = false;
-  } else if (confirmPasswordTypingStarted) {
-    passwordMatchStatus.innerHTML = '<i class="fa fa-times mismatch"></i>';
-    submitButton.disabled = true;
   }
 }
 
-confirmPasswordInput.addEventListener("input", function () {
-  confirmPasswordTypingStarted = true;
-  checkPasswordMatch();
-});
-
 passwordInput.addEventListener("input", checkPasswordMatch);
+confirmPasswordInput.addEventListener("input", checkPasswordMatch);
 
+// Upload form submission logic
+const uploadForm = document.getElementById("uploadForm");
+const progressBar = document.getElementById("progressBar");
+const progressContainer = document.getElementById("progressContainer");
+const downloadSection = document.getElementById("downloadSection");
+const fileLinkElement = document.getElementById("fileLink");
+const copyButton = document.getElementById('copyButton');
 
-
-const uploadForm = document.getElementById('uploadForm');
-const progressBar = document.getElementById('progressBar');
-const progressContainer = document.getElementById('progressContainer');
-const downloadLink = document.getElementById('downloadLink');
-const fileUploadSection = document.getElementById('fileUploadSection');
-const backToHomeButton = document.getElementById('backToHome');
-
-uploadForm.addEventListener('submit', function (event) {
+uploadForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const formData = new FormData(uploadForm);
   const xhr = new XMLHttpRequest();
 
-  // Hide password, submit button, and the entire file upload section when progress starts
-  passwordInput.style.display = 'none';
-  submitButton.style.display = 'none';
-  fileUploadSection.style.display = 'none';
+  uploadForm.style.display = "none";
+  progressContainer.style.display = "block";
 
-  // Show the progress bar
-  progressContainer.style.display = 'block';
+  xhr.open("POST", "/upload", true);
 
-  xhr.open('POST', '/upload', true);
-
-  // Update progress bar
   xhr.upload.onprogress = function (event) {
     if (event.lengthComputable) {
       const percentComplete = Math.round((event.loaded / event.total) * 100);
-      progressBar.style.width = percentComplete + '%';
-      progressBar.textContent = percentComplete + '%';
+      progressBar.style.width = percentComplete + "%";
+      progressBar.textContent = `${percentComplete}%`; // Add percentage symbol
+
+    // Apply the custom class for styling
+    progressBar.classList.add("progress-bar-custom");
     }
   };
 
   xhr.onload = function () {
     if (xhr.status === 200) {
-      progressContainer.style.display = 'none';
+      progressContainer.style.display = "none";
       const response = JSON.parse(xhr.responseText);
 
-      // Set the file link and display download link
-      const fileLink = document.getElementById('fileLink');
-      fileLink.href = response.fileLink;
-      fileLink.textContent = 'Download File';
-      downloadLink.style.display = 'block';
+      fileLinkElement.href = response.fileLink;
+      downloadSection.style.display = "block";
 
-      // Show the copy button and set up the copy functionality
-      const copyButton = document.getElementById('copyButton');
-      copyButton.style.display = 'inline-block';
-      copyButton.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default action
-        event.stopPropagation(); // Stop bubbling up to the form
-        copyToClipboard(response.fileLink);
-      });
-
-      // Generate and display the QR code for the download link
       generateQRCode(response.fileLink);
-
-      // Show the back to home button
-      backToHomeButton.style.display = 'block';
     } else {
-      console.error('Upload failed.');
+      console.error("Upload failed.");
+      alert("An error occurred while uploading the file.");
     }
   };
 
   xhr.onerror = function () {
-    console.error('Error while uploading the file.');
+    console.error("Error while uploading the file.");
+    alert("An error occurred while uploading the file.");
   };
 
   xhr.send(formData);
 });
 
-// Function to copy link to clipboard
-function copyToClipboard(text) {
-  const tempInput = document.createElement('input');
-  tempInput.style.position = 'absolute';
-  tempInput.style.left = '-9999px';
-  tempInput.value = text;
-  document.body.appendChild(tempInput);
-  tempInput.select();
-  document.execCommand('copy');
-  document.body.removeChild(tempInput);
-  alert('Link copied to clipboard!');
-}
+// Reset button functionality to reload the page
+const resetButton = document.getElementById("resetButton");
 
-// Function to generate QR code
+resetButton.addEventListener("click", function () {
+  location.reload(); // Reloads the page, clearing all form data and state
+});
+
+// QR code generation
 function generateQRCode(link) {
-  const qrCodeContainer = document.getElementById('qrcode');
-  qrCodeContainer.innerHTML = ''; // Clear any existing QR code
+  const qrCodeContainer = document.getElementById("qrcode");
+  qrCodeContainer.innerHTML = "";
   new QRCode(qrCodeContainer, {
     text: link,
     width: 128,
@@ -121,66 +100,80 @@ function generateQRCode(link) {
   });
 }
 
-// Back to home functionality
-backToHomeButton.addEventListener('click', function() {
-  window.location.href = '/';  // Redirects to home page
-});
+// Drag-and-drop functionality
+document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+  const dropZoneElement = inputElement.closest(".drop-zone");
 
-
-document.querySelectorAll('.drop-zone__input').forEach((inputElement) => {
-  const dropZoneElement = inputElement.closest('.drop-zone');
-
-  dropZoneElement.addEventListener('click', (e) => {
+  dropZoneElement.addEventListener("click", () => {
     inputElement.click();
   });
 
-  inputElement.addEventListener('change', (e) => {
+  inputElement.addEventListener("change", () => {
     if (inputElement.files.length) {
       updateThumbnail(dropZoneElement, inputElement.files[0]);
     }
   });
 
-  dropZoneElement.addEventListener('dragover', (e) => {
+  dropZoneElement.addEventListener("dragover", (e) => {
     e.preventDefault();
-    dropZoneElement.classList.add('drop-zone--over');
+    dropZoneElement.classList.add("drop-zone--over");
   });
 
-  ['dragleave', 'dragend'].forEach((type) => {
-    dropZoneElement.addEventListener(type, (e) => {
-      dropZoneElement.classList.remove('drop-zone--over');
+  ["dragleave", "dragend"].forEach((type) => {
+    dropZoneElement.addEventListener(type, () => {
+      dropZoneElement.classList.remove("drop-zone--over");
     });
   });
 
-  dropZoneElement.addEventListener('drop', (e) => {
+  dropZoneElement.addEventListener("drop", (e) => {
     e.preventDefault();
+
     if (e.dataTransfer.files.length) {
       inputElement.files = e.dataTransfer.files;
       updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
     }
-    dropZoneElement.classList.remove('drop-zone--over');
+
+    dropZoneElement.classList.remove("drop-zone--over");
   });
 });
 
+// Update thumbnail in the drop zone
 function updateThumbnail(dropZoneElement, file) {
-  let thumbnailElement = dropZoneElement.querySelector('.drop-zone__thumb');
-  if (dropZoneElement.querySelector('.drop-zone__prompt')) {
-    dropZoneElement.querySelector('.drop-zone__prompt').remove();
+  let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+  if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+    dropZoneElement.querySelector(".drop-zone__prompt").remove();
   }
 
   if (!thumbnailElement) {
-    thumbnailElement = document.createElement('div');
-    thumbnailElement.classList.add('drop-zone__thumb');
+    thumbnailElement = document.createElement("div");
+    thumbnailElement.classList.add("drop-zone__thumb");
     dropZoneElement.appendChild(thumbnailElement);
   }
 
   thumbnailElement.dataset.label = file.name;
-  if (file.type.startsWith('image/')) {
+
+  if (file.type.startsWith("image/")) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
     };
   } else {
-    thumbnailElement.style.backgroundImage = null;
+    thumbnailElement.style.backgroundImage = "url('/img/file-icon.png')";
   }
 }
+const backToHomeButton = document.getElementById("backToHome");
+
+backToHomeButton.addEventListener("click", () => {
+  location.reload();  // Reloads the page to reset the form
+});
+
+
+
+// Copy link to clipboard
+copyButton.addEventListener('click', function () {
+  navigator.clipboard.writeText(fileLinkElement.href)
+    .then(() => alert('Link copied to clipboard!'))
+    .catch(err => console.error('Could not copy text: ', err));
+});

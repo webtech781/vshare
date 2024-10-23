@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Admin Panel</h1>
+        <a href="/admin/logout" class="btn btn-secondary">Logout</a>
+        <a href="/admin/login-history" class="btn">View Admin Login History</a>
+        <a href="/admin/ip-history" class="btn">View User IP History</a>
+        
+        <div class="section">
+            <h2>Live IPs</h2>
+            <ul id="liveIpList"></ul>
+        </div>
+
+        <div class="section">
+            <h2>Blocked IPs</h2>
+            <table id="blockedIpTable">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Device</th>
+                        <th>Block Type</th>
+                        <th>Blocked Until</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="blockedIpList"></tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Unblocked IPs</h2>
+            <table id="unblockedIpTable">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Device</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="unblockedIpList"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function updateLiveIPs() {
+            fetch('/admin/live-ips')
+                .then(response => response.json())
+                .then(ips => {
+                    const liveIpList = document.getElementById('liveIpList');
+                    liveIpList.innerHTML = '';
+                    ips.forEach(ip => {
+                        const li = document.createElement('li');
+                        li.textContent = ip;
+                        liveIpList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error fetching live IPs:', error));
+        }
+
+        function updateIPLists() {
+            fetch('/admin/logs')
+                .then(response => response.json())
+                .then(data => {
+                    updateIpTable('blockedIpList', data.blockedIps, true);
+                    updateIpTable('unblockedIpList', data.unblockedIps, false);
+                })
+                .catch(error => console.error('Error fetching logs:', error));
+        }
+
+        function updateIpTable(tableId, ips, isBlocked) {
+            const ipList = document.getElementById(tableId);
+            ipList.innerHTML = '';
+            ips.forEach(ip => {
+                const row = createIpRow(ip, isBlocked);
+                ipList.appendChild(row);
+            });
+        }
+
+        function createIpRow(ipData, isBlocked) {
+            const row = document.createElement('tr');
+            const ip = ipData.ip;
+            const deviceName = ipData.deviceName;
+            const until = ipData.until ? new Date(ipData.until).toLocaleString() : 'N/A';
+            const blockType = ipData.type || 'N/A';
+            row.innerHTML = `
+                <td>${ip}</td>
+                <td>${deviceName}</td>
+                ${isBlocked ? `<td>${blockType}</td><td>${until}</td>` : ''}
+                <td>
+                    <button onclick="toggleBlock('${ip}', ${!isBlocked})">
+                        ${isBlocked ? 'Unblock' : 'Block'}
+                    </button>
+                    <button onclick="deleteIpHistory('${ip}')">Delete History</button>
+                </td>
+            `;
+            return row;
+        }
+
+        function toggleBlock(ip, block) {
+            fetch('/admin/toggle-block', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ip, block }),
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    updateIPLists();
+                } else {
+                    alert('Failed to update IP status');
+                }
+            })
+            .catch(error => console.error('Error toggling IP block status:', error));
+        }
+
+        function deleteIpHistory(ip) {
+            fetch('/admin/delete-ip-history', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ip }),
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    updateIPLists();
+                } else {
+                    alert('Failed to delete IP history');
+                }
+            })
+            .catch(error => console.error('Error deleting IP history:', error));
+        }
+
+        // Update IP lists every 2 seconds
+        setInterval(() => {
+            updateLiveIPs();
+            updateIPLists();
+        }, 2000);
+
+        // Initial update
+        updateLiveIPs();
+        updateIPLists();
+    </script>
+</body>
+</html>
