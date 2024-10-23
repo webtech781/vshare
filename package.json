@@ -4,6 +4,8 @@
   "description": "A secure file-sharing system built with Node.js, Express, MongoDB, and Multer.",
   "main": "server.js",
   "scripts": {
+    "test": "node test-server.js",
+    "testshare": "nodemon test-server.js",
     "start": "node server.js",
     "vshare": "nodemon server.js"
   },
