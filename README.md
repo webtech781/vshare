@@ -123,7 +123,13 @@ Before you begin, ensure you have met the following requirements:
    ADMIN_PASSWORD=youradminpassword
    SESSION_SECRET=your_very_long_and_random_secret_string
    ```
-7. Start the server:
+7. Start the Redis server:
+   ```
+   redis-server
+   ```
+   run it in new tab
+   
+8. Start the server:
    ```
    npm run vshare
    ```
