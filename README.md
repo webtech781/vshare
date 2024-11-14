@@ -31,7 +31,7 @@ Before you begin, ensure you have met the following requirements:
 3. Install Redis for Windows using [Memurai](https://www.memurai.com/) (a Redis-compatible server for Windows)
 4. Clone the repository:
    ```
-   git clone https://github.com/yourusername/vshare.git
+   git clone https://github.com/webtech781/vshare.git
    cd vshare
    ```
 5. Install dependencies:
@@ -75,7 +75,7 @@ Before you begin, ensure you have met the following requirements:
    ```
 4. Clone the repository:
    ```
-   git clone https://github.com/yourusername/vshare.git
+   git clone https://github.com/webtech781/vshare.git
    cd vshare
    ```
 5. Install dependencies:
@@ -119,7 +119,7 @@ Before you begin, ensure you have met the following requirements:
    ```
 4. Clone the repository:
    ```
-   git clone https://github.com/yourusername/vshare.git
+   git clone https://github.com/webtech781/vshare.git
    cd vshare
    ```
 5. Install dependencies:
