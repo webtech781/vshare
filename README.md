@@ -213,6 +213,29 @@ When deploying to production:
 3. Use a reverse proxy like Nginx for additional security layers.
 4. Regularly update and patch the server and all dependencies.
 
+## Screenshots
+
+### 1. Home Page
+   The main interface for users to upload files with options for password protection and file sharing.
+   ![Home Page](path/to/homepage_screenshot.png)
+
+### 2. File Upload with Password Protection
+   Users can upload a file and set an optional password to secure the link.
+   ![File Upload with Password](path/to/file_upload_screenshot.png)
+
+### 3. Generated Link for Sharing
+   After uploading, a secure link is generated for easy sharing.
+   ![Generated Link](path/to/generated_link_screenshot.png)
+
+### 4. Admin Login Page
+   Admin access to log in and manage user activities and IP blocking.
+   ![Admin Login](path/to/admin_login_screenshot.png)
+
+### 5. Admin Panel Dashboard
+   The admin dashboard provides tools for tracking, blocking, and unblocking IPs, along with monitoring file-sharing activities.
+   ![Admin Panel](path/to/admin_panel_screenshot.png)
+
+
 ## Contributing
 
 Contributions to VShare are welcome. Please feel free to submit a Pull Request.
